@@ -10,12 +10,15 @@ class Game:
     def __init__(self,
                  game_mode_name : str,
                  map_name : str,
+                 score : int,
                  eliminations_assists : int,
                  deaths : int,
-                 ratio : float, date_game : datetime) -> None:
+                 ratio : float,
+                 date_game : datetime) -> None:
         """ Initialize game"""
         self.game_mode_name = game_mode_name
         self.map_name = map_name
+        self.score = score
         self.eliminations_assists = eliminations_assists
         self.deaths = deaths
         self.ratio = ratio
@@ -28,6 +31,7 @@ class Game:
         """
         stats = {"eliminations_assists": self.eliminations_assists,
                  "deaths": self.deaths,
+                 "score": self.score,
                  "ratio": self.ratio}
 
         return stats
@@ -43,3 +47,5 @@ class Game:
                             "deaths": self.deaths,
                             "ratio": self.ratio,
                             "date" : self.date_game}
+
+        return game_information
