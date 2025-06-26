@@ -1,3 +1,4 @@
 venv_cod/
 .idea/
 test_image/
+.pylintrc
