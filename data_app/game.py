@@ -1,3 +1,5 @@
+from datetime import date
+
 class Game:
     """
     Create a game that contains :
@@ -11,25 +13,34 @@ class Game:
                  map_name : str,
                  eliminations_assists : int,
                  deaths : int,
-                 ratio : float) -> None:
+                 ratio : float, date : date) -> None:
         """ Initialize game"""
         self.game_mode_name = game_mode_name
         self.map_name = map_name
         self.eliminations_assists = eliminations_assists
         self.deaths = deaths
         self.ratio = ratio
+        self.date = date
 
 
     def get_all_stats(self) -> dict:
         """
         Return all the stats
         """
-        stats = {"game_mode_name": self.game_mode_name,
-                 "map": self.map_name,
-                 "eliminations_assists": self.eliminations_assists,
+        stats = {"eliminations_assists": self.eliminations_assists,
                  "deaths": self.deaths,
                  "ratio": self.ratio}
 
         return stats
 
-    def simulates_game(self) -> Game:
+    def game_information_and_stats(self) -> dict:
+        """
+        Return all the information about the game with the player stats
+        :return :
+        """
+        game_information = {"game_mode_name": self.game_mode_name,
+                            "map": self.map_name,
+                            "eliminations_assists": self.eliminations_assists,
+                            "deaths": self.deaths,
+                            "ratio": self.ratio,
+                            "date" : self.date}
