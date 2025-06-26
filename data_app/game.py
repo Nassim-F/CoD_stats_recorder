@@ -13,14 +13,14 @@ class Game:
                  map_name : str,
                  eliminations_assists : int,
                  deaths : int,
-                 ratio : float, date : date) -> None:
+                 ratio : float, date_game : date) -> None:
         """ Initialize game"""
         self.game_mode_name = game_mode_name
         self.map_name = map_name
         self.eliminations_assists = eliminations_assists
         self.deaths = deaths
         self.ratio = ratio
-        self.date = date
+        self.date_game = date_game
 
 
     def get_all_stats(self) -> dict:
@@ -43,4 +43,4 @@ class Game:
                             "eliminations_assists": self.eliminations_assists,
                             "deaths": self.deaths,
                             "ratio": self.ratio,
-                            "date" : self.date}
+                            "date" : self.date_game}
