@@ -52,6 +52,35 @@ def get_list_game_information(path_image: str) -> list:
     return list_game_information
 
 
+def get_game_result(list_game_information: list) -> dict:
+    """
+    This method looks for the result and return if its win or defeat with the final score result
+    :param list_game_information:
+    :return final: dictionary that contains the result (win or defeat) and final score result
+    """
+    final = {}
+    result = ''
+    for data in list_game_information[:5]:
+        # I don't know if the position will change
+        # that's why I check if the value contains only number or not to get the score result
+        if data.replace(' ', '').isdigit():
+            result = data
+
+    check_result = result.split(' ')
+
+    if int(check_result[0]) > int(check_result[1]):
+        final['résultat'] = 'victoire'
+        final['résultat_score_final'] = result.replace(' ', ' - ')
+    elif int(check_result[0]) < int(check_result[1]):
+        final['résultat'] = 'défaite'
+        final['résultat_score_final'] = result.replace(' ', ' - ')
+    else:
+        final['résultat'] = 'égalité'
+        final['résultat_score_final'] = result.replace(' ', ' - ')
+
+    return final
+
+
 map_and_ode_name = get_map_and_mode_name("test_image/ec_win.png")
 list_game_info = get_list_game_information("test_image/ec_win.png")
 
