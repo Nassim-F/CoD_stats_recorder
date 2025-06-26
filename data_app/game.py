@@ -1,5 +1,4 @@
-from datetime import date
-
+import datetime
 class Game:
     """
     Create a game that contains :
@@ -13,7 +12,7 @@ class Game:
                  map_name : str,
                  eliminations_assists : int,
                  deaths : int,
-                 ratio : float, date_game : date) -> None:
+                 ratio : float, date_game : datetime) -> None:
         """ Initialize game"""
         self.game_mode_name = game_mode_name
         self.map_name = map_name
