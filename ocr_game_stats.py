@@ -1,6 +1,7 @@
 # pylint: disable=missing-module-docstring
 
 from datetime import datetime
+from itertools import chain
 
 import cv2
 import easyocr
@@ -10,7 +11,8 @@ start_time = datetime.now()
 
 def get_map_and_mode_name(path_image: str) -> dict:
     """
-    Process the score board image in order to take only the map name and the game
+    Process the score board image in order to take only the map name and the game by cropping
+    the right image part
     :param path_image : image location to analyse
     :return dict_game_mode_name : dictionary that contains the map name and the mode name
     """
@@ -81,10 +83,44 @@ def get_game_result(list_game_information: list) -> dict:
     return final
 
 
-map_and_ode_name = get_map_and_mode_name("test_image/ec_win.png")
-list_game_info = get_list_game_information("test_image/ec_win.png")
+def get_player_stats(list_score_board_stats: list, player_name: str) -> dict:
+    """
+    Retrieve all the player stats that are in the list depending on the user id of the player
+    Return a dictionary with all the stats of the targeted player related to the game mode
+    :param list_score_board_stats: list that contains all texts extracted from the scoreboard image
+    :param player_name: player user id
+    :return dict_stats: dictionary that contains all the remaining stats
+    """
+    dict_stats = {}
+    for data in list_score_board_stats[14:-12]:
+        # I split the list in order to make easy the check condition
+        # and get the right data in the score board
+        if player_name in data:
+            # retrieve the position of the player in the list
+            # and add scoreboard stats in dictionary
+            dict_stats['score'] = list_score_board_stats[list_score_board_stats.index(data) + 1]
+            dict_stats['score_objectif'] = list_score_board_stats[list_score_board_stats.index(data) + 2]
+            dict_stats['confirmation'] = list_score_board_stats[list_score_board_stats.index(data) + 3]
 
+    for data in list_score_board_stats[-12:]:  # I take only the last line stats
+        if player_name in data:
+            dict_stats['éliminations/assists'] = list_score_board_stats[-5]
+            dict_stats['morts'] = list_score_board_stats[-4]
+            dict_stats['ratio'] = round(int(list_score_board_stats[-5]) / int(list_score_board_stats[-4]), 2)
+            dict_stats['refus'] = list_score_board_stats[-1].split(' ')[
+                0]  # I retrieve only the number, so  it's the first element after splitting the value
+
+    return dict_stats
+
+
+map_and_mode_names = get_map_and_mode_name("test_image/ec_win.png")
+list_game_info = get_list_game_information("test_image/ec_win.png")
+game_result = get_game_result(list_game_info)
+player_name = input("Renseignez un pseudo : ")
+player_stats = get_player_stats(list_game_info, player_name)
+
+all_data = dict(chain.from_iterable(d.items() for d in (map_and_mode_names, game_result, player_stats)))
 end_time = datetime.now()
 
-print(map_and_ode_name)
-print(list_game_info)
+
+print(all_data)
