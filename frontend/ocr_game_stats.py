@@ -6,8 +6,6 @@ from itertools import chain
 import cv2
 import easyocr
 
-start_time = datetime.now()
-
 
 def get_map_and_mode_name(path_image: str) -> dict:
     """
