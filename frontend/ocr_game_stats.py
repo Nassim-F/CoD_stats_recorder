@@ -19,7 +19,7 @@ def get_map_and_mode_name(image: cv2) -> dict:
     # Cropping image : 1st image to get the game mode and the map name and the second for the stats
     game_mode = image[80:220, 310:1400]
 
-    reader = easyocr.Reader(["fr"], model_storage_directory='model')
+    reader = easyocr.Reader(["fr"], model_storage_directory='model', download_enabled=False)
     result_game_mode = reader.readtext(game_mode)
 
     text_result_game_mode = [detection[1] for detection in result_game_mode]
@@ -44,7 +44,7 @@ def get_list_game_information(image: cv2) -> list:
     # Cropping image : 1st image to get the game mode and the map name and the second for the stats
     score_board = image[360:2050, 370:3470]
 
-    reader = easyocr.Reader(["fr"], model_storage_directory='model')
+    reader = easyocr.Reader(["fr"], model_storage_directory='model', download_enabled=False)
     result_score_board = reader.readtext(score_board)
 
     list_game_information = [detection[1] for detection in result_score_board]
