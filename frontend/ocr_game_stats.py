@@ -7,17 +7,17 @@ import cv2
 import easyocr
 
 
-def get_map_and_mode_name(path_image: str) -> dict:
+def get_map_and_mode_name(image: cv2) -> dict:
     """
     Process the score board image in order to take only the map name and the game by cropping
     the right image part
-    :param path_image : image location to analyse
+    :param image : image location to analyse
     :return dict_game_mode_name : dictionary that contains the map name and the mode name
     """
-    img = cv2.imread(path_image)
+    # img = cv2.imread(image)
 
     # Cropping image : 1st image to get the game mode and the map name and the second for the stats
-    game_mode = img[80:220, 310:1400]
+    game_mode = image[80:220, 310:1400]
 
     reader = easyocr.Reader(["fr"])
     result_game_mode = reader.readtext(game_mode)
@@ -32,17 +32,17 @@ def get_map_and_mode_name(path_image: str) -> dict:
     return dict_game_mode_name
 
 
-def get_list_game_information(path_image: str) -> list:
+def get_list_game_information(image: cv2) -> list:
     """
     Split the image to get the scoreboard part only
     Then it stores all text information detected by easyocr
-    :param path_image:
+    :param image:
     :return: list
     """
-    img = cv2.imread(path_image)
+    #img = cv2.imread(path_image)
 
     # Cropping image : 1st image to get the game mode and the map name and the second for the stats
-    score_board = img[360:2050, 370:3470]
+    score_board = image[360:2050, 370:3470]
 
     reader = easyocr.Reader(["fr"])
     result_score_board = reader.readtext(score_board)
@@ -111,14 +111,14 @@ def get_player_stats(list_score_board_stats: list, player_name: str) -> dict:
     return dict_stats
 
 
-map_and_mode_names = get_map_and_mode_name("test_image/ec_win.png")
-list_game_info = get_list_game_information("test_image/ec_win.png")
-game_result = get_game_result(list_game_info)
-player_name = input("Renseignez un pseudo : ")
-player_stats = get_player_stats(list_game_info, player_name)
-
-all_data = dict(chain.from_iterable(d.items() for d in (map_and_mode_names, game_result, player_stats)))
-end_time = datetime.now()
-
-
-print(all_data)
+# map_and_mode_names = get_map_and_mode_name("test_image/ec_win.png")
+# list_game_info = get_list_game_information("test_image/ec_win.png")
+# game_result = get_game_result(list_game_info)
+# player_name = input("Renseignez un pseudo : ")
+# player_stats = get_player_stats(list_game_info, player_name)
+#
+# all_data = dict(chain.from_iterable(d.items() for d in (map_and_mode_names, game_result, player_stats)))
+# end_time = datetime.now()
+#
+#
+# print(all_data)
